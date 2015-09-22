@@ -47,11 +47,21 @@
   "TODO"
   [])
 
-(def X (clx/matrix [1 2 3 4 5]))
-(def Y (clx/matrix [1 3 2 7 10]))
-
 (defn plot-model []
+  (let [X (clx/matrix [1 2 3 4 5])
+        Y (clx/matrix [1 3 2 7 10])])
   (ic/view (charts/add-lines (charts/scatter-plot X Y)
                              X (:fitted (stats/linear-model Y X)))))
 ;; (plot-model)
 ;; (:residuals (stats/linear-model Y X))
+
+
+(defn plot-iris-linear-model []
+ (let [iris (ic/to-matrix (ds/get-dataset :iris))
+       X (ic/sel iris :cols (range 1 5))
+       Y (ic/sel iris :cols 0)
+       iris-linear-model (stats/linear-model Y X)
+       x (range -100 100)
+       y (:fitted iris-linear-model)]
+   (ic/view (charts/xy-plot x y :x-lable "X" :y-label "Y"))))
+;; (plot-iris-linear-model)
